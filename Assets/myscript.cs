@@ -4,31 +4,35 @@ using UnityEngine;
 
 public class myscript : MonoBehaviour
 {
+    Renderer renderer1;
     Texture texture1;
-    Renderer renderer;
     Color color1;
+    float size=1.0f;
 
     // Start is called before the first frame update
     void Start()
     {
-       texture1 = (Texture)Resources.Load("QS-GRASS-1.1");
-       renderer = GetComponent<Renderer>();
-       color1 = renderer.material.color;
+        renderer1=GetComponent<Renderer>();
+        texture1=(Texture)Resources.Load("QS-GRASS-1.1");
+        color1 = renderer1.material.color;
+        renderer1.material.mainTexture=texture1;
+        renderer1.material.color=Color.white;
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.Rotate(1f,1f,0.1f);
-        if(Input.GetKeyDown(KeyCode.Space))
+        transform.Rotate(0.1f,0.1f,0.01f);
+        if(Input.GetKey(KeyCode.LeftArrow))
         {
-            renderer.material.mainTexture=texture1;
-            renderer.material.color=Color.white;
+            size+=0.01f;
+            renderer1.material.mainTextureScale=new Vector2(size,size);
         }
-        if(Input.GetKeyUp(KeyCode.Space))
+        if(Input.GetKey(KeyCode.RightArrow))
         {
-            renderer.material.mainTexture=null;
-            renderer.material.color = color1;
+            size-=0.01f;
+            if(size<0){size=0.0f;}
+            renderer1.material.SetTextureScale("_MainTex",new Vector2(size,size));
         }
     }
 }
