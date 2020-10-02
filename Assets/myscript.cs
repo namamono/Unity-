@@ -25,5 +25,14 @@ public class myscript : MonoBehaviour
     void Update()
     {
        transform.Rotate(0.1f,0.1f,0.1f);
+       Animation animation = GetComponent<Animation>();
+       if(Input.GetKeyDown(KeyCode.Space))
+       {
+           animation.Stop();
+       }
+       if(Input.GetKeyUp(KeyCode.Space))
+       {
+           animation.Play("clip1");
+       }
     }
 }
