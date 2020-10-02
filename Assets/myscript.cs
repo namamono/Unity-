@@ -9,16 +9,33 @@ public class myscript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        AnimationClip clip = new AnimationClip();
-        clip.legacy=true;
-        AnimationCurve curve = AnimationCurve.Linear(0f,3f,3f,3f);
-        Keyframe key = new Keyframe(1.5f,7f);
-        curve.AddKey(key);
-        clip.SetCurve("",typeof(Transform),"localPosition.z",curve);
-        clip.wrapMode=WrapMode.Loop;
         Animation animation = GetComponent<Animation>();
-        animation.AddClip(clip,"clip1");
-        animation.Play("clip1");
+
+        //1つ目のアニメーションクリップ
+        AnimationClip clipA = new AnimationClip();
+        clipA.legacy=true;
+        AnimationCurve curveA= AnimationCurve.Linear(0f,3f,3f,3f);
+        Keyframe keyA=new Keyframe(1.5f,10f);
+        curveA.AddKey(keyA);
+        clipA.SetCurve("",typeof(Transform),"localPosition.z",curveA);
+        clipA.wrapMode=WrapMode.Loop;
+        animation.AddClip(clipA,"anim1");
+        //animation.Play("clip1");
+
+        //2つ目のアニメーションクリップ
+        AnimationClip clipB=new AnimationClip();
+        clipB.legacy=true;
+        AnimationCurve curveB=AnimationCurve.Linear(0f,2f,2f,2f);
+        Keyframe key1 = new Keyframe(0.5f,7f);
+        curveB.AddKey(key1);
+        Keyframe key2 = new Keyframe(1.0f,3f);
+        curveB.AddKey(key2);
+        Keyframe key3 = new Keyframe(1.5f,7f);
+        curveB.AddKey(key3);
+        clipB.SetCurve("",typeof(Transform),"localPosition.z",curveB);
+        clipB.wrapMode=WrapMode.Loop;
+        animation.AddClip(clipB,"anim2");
+        animation.Play("anim1");
     }
 
     // Update is called once per frame
@@ -28,11 +45,15 @@ public class myscript : MonoBehaviour
        Animation animation = GetComponent<Animation>();
        if(Input.GetKeyDown(KeyCode.Space))
        {
-           animation.Stop();
+           if(animation.IsPlaying("anim1"))
+           {
+               animation.PlayQueued("anim2",QueueMode.PlayNow);
+           }
+           else
+           {
+               animation.PlayQueued("anim1",QueueMode.PlayNow);
+           }
        }
-       if(Input.GetKeyUp(KeyCode.Space))
-       {
-           animation.Play("clip1");
-       }
+
     }
 }
