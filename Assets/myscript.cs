@@ -32,7 +32,7 @@ public class myscript : MonoBehaviour
         curveB.AddKey(key2);
         Keyframe key3 = new Keyframe(1.5f,7f);
         curveB.AddKey(key3);
-        clipB.SetCurve("",typeof(Transform),"localPosition.z",curveB);
+        clipB.SetCurve("",typeof(Transform),"localPosition.x",curveB);
         clipB.wrapMode=WrapMode.Loop;
         animation.AddClip(clipB,"anim2");
         animation.Play("anim1");
@@ -47,11 +47,11 @@ public class myscript : MonoBehaviour
        {
            if(animation.IsPlaying("anim1"))
            {
-               animation.PlayQueued("anim2",QueueMode.PlayNow);
+               animation.CrossFade("anim2",5.0f);
            }
            else
            {
-               animation.PlayQueued("anim1",QueueMode.PlayNow);
+               animation.CrossFade("anim1",5.0f);
            }
        }
 
