@@ -17,19 +17,21 @@ public class myscript : MonoBehaviour
     void Update()
     {
        transform.Rotate(0.1f,0.1f,0.1f);
-       Animator animation = GetComponent<Animator>();
-       if(Input.GetKeyDown(KeyCode.Space))
+       Animator animator = GetComponent<Animator>();
+       int flag = animator.GetInteger("flag");
+
+       if(Input.GetKeyDown(KeyCode.UpArrow))
        {
-           if(flg)
-           {
-               animation.CrossFade("anim2",5.0f);
-           }
-           else
-           {
-               animation.CrossFade("anim1",5.0f);
-           }
-           flg = !flg;
+           flag++;
+           Debug.Log(flag);
        }
+       if(Input.GetKeyDown(KeyCode.DownArrow))
+       {
+           flag--;
+           Debug.Log(flag);
+       }
+       animator.SetInteger("flag",flag);
+       
 
     }
 }
