@@ -39,9 +39,10 @@ public class myscript : MonoBehaviour
     }
     void OnCollisionEnter(Collision collision)
         {
-            if(collision.gameObject.name != "Plane")
+            if(collision.gameObject.tag == "Player")
             {
                 collision.gameObject.GetComponent<Renderer>().material.color=Color.yellow;
+                gameObject.GetComponent<Renderer>().material.color=Color.gray;
             }
         }
 }
