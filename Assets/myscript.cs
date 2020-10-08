@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class myscript : MonoBehaviour
 {
-    bool flg;
 
 
     // Start is called before the first frame update
@@ -16,22 +15,33 @@ public class myscript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       transform.Rotate(0.1f,0.1f,0.1f);
-       Animator animator = GetComponent<Animator>();
-       int flag = animator.GetInteger("flag");
+        GameObject cube= GameObject.Find("Cube");
+        Rigidbody rigidbody = GetComponent<Rigidbody>();
 
-       if(Input.GetKeyDown(KeyCode.UpArrow))
-       {
-           flag++;
-           Debug.Log(flag);
-       }
-       if(Input.GetKeyDown(KeyCode.DownArrow))
-       {
-           flag--;
-           Debug.Log(flag);
-       }
-       animator.SetInteger("flag",flag);
-       
-
+        cube.transform.Rotate(0.1f,-0.1f,-0.1f);
+        if(Input.GetKey(KeyCode.LeftArrow))
+        {
+            rigidbody.AddForce(new Vector3(-1f,0f,1f));
+        }
+        if(Input.GetKey(KeyCode.RightArrow))
+        {
+            rigidbody.AddForce(new Vector3(1f,0f,-1f));
+        }
+        if(Input.GetKey(KeyCode.UpArrow))
+        {
+            rigidbody.AddForce(new Vector3(1f,0f,1f));
+        }
+        if(Input.GetKey(KeyCode.DownArrow))
+        {
+            rigidbody.AddForce(new Vector3(-1f,0f,-1f));
+        }
+        
     }
+    void OnCollisionEnter(Collision collision)
+        {
+            if(collision.gameObject.name != "Plane")
+            {
+                collision.gameObject.GetComponent<Renderer>().material.color=Color.yellow;
+            }
+        }
 }
