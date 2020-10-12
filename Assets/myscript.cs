@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class myscript : MonoBehaviour
 {
-    int counter =0;
-    GameObject obj = null;
+
 
     // Start is called before the first frame update
     void Start()
@@ -18,15 +17,6 @@ public class myscript : MonoBehaviour
     {
         GameObject cube= GameObject.Find("Cube");
         Rigidbody rigidbody = GetComponent<Rigidbody>();
-
-        if(obj!=null)
-        {
-            if(counter++>1000)
-            {
-                obj.SetActive(true);
-                obj=null;
-            }
-        }
         try
         {
             cube.transform.Rotate(0.1f,-0.1f,-0.1f);
@@ -52,12 +42,20 @@ public class myscript : MonoBehaviour
         
     }
     void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.tag == "Player")
         {
-            if(collision.gameObject.tag == "Player")
-            {
-                collision.gameObject.SetActive(false);
-                obj=collision.gameObject;
-                counter=0;
-            }
+            collision.gameObject.GetComponent<Renderer>().material.color=new Color(1f,0,0,0.25f);
         }
+    }
+
+    void OnCollisionExit(Collision collision) 
+    {
+        if(collision.gameObject.tag == "Player")
+        {
+            collision.gameObject.GetComponent<Renderer>().material.color=new Color(1f,0,0,1f);
+        }
+        
+    }
+    
 }
