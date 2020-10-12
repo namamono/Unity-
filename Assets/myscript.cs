@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class myscript : MonoBehaviour
 {
-
+    int counter =0;
+    GameObject obj = null;
 
     // Start is called before the first frame update
     void Start()
@@ -18,7 +19,20 @@ public class myscript : MonoBehaviour
         GameObject cube= GameObject.Find("Cube");
         Rigidbody rigidbody = GetComponent<Rigidbody>();
 
-        cube.transform.Rotate(0.1f,-0.1f,-0.1f);
+        if(obj!=null)
+        {
+            if(counter++>1000)
+            {
+                obj.SetActive(true);
+                obj=null;
+            }
+        }
+        try
+        {
+            cube.transform.Rotate(0.1f,-0.1f,-0.1f);
+        }
+        catch(System.NullReferenceException e){}
+        
         if(Input.GetKey(KeyCode.LeftArrow))
         {
             rigidbody.AddForce(new Vector3(-1f,0f,1f));
@@ -41,8 +55,9 @@ public class myscript : MonoBehaviour
         {
             if(collision.gameObject.tag == "Player")
             {
-                collision.gameObject.GetComponent<Renderer>().material.color=Color.yellow;
-                gameObject.GetComponent<Renderer>().material.color=Color.gray;
+                collision.gameObject.SetActive(false);
+                obj=collision.gameObject;
+                counter=0;
             }
         }
 }
