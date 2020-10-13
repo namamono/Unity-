@@ -6,24 +6,12 @@ using UnityEngine.Rendering;
 
 public class myscript : MonoBehaviour
 {
-    int counter=0;
-    GameObject obj = null;
+
     // Start is called before the first frame update
     void Start()
     {
-        GameObject[] objs =GameObject.FindGameObjectsWithTag("Player");
-        foreach(GameObject obj in objs)
-        {
-            Renderer renderer = obj.GetComponent<Renderer>();
-            renderer.material.SetFloat("_Mode",3f);
-            renderer.material.SetInt("_SrcBlend",(int)BlendMode.SrcAlpha);
-            renderer.material.SetInt("_DstBlend",(int)BlendMode.OneMinusSrcAlpha);
-            renderer.material.SetInt("_ZWrite",0);
-            renderer.material.DisableKeyword("_ALPHATEST_ON");
-            renderer.material.EnableKeyword("_ALPHABLEND_ON");
-            renderer.material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
-            renderer.material.renderQueue=3000;
-        }
+        GameObject cube = GameObject.Find("Cube");
+        cube.GetComponent<Renderer>().material.color=new Color (1f,0,0,0.5f);
     }
 
     // Update is called once per frame
@@ -55,25 +43,19 @@ public class myscript : MonoBehaviour
         }
         
     }
-    void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other) 
     {
-        if(collision.gameObject.tag == "Player")
+        if(other.gameObject.tag=="Player")
         {
-            Renderer renderer=collision.gameObject.GetComponent<Renderer>();
-            Color color = renderer.material.color;
-            color.a=0.25f;
-            renderer.material.color=color;
+            other.gameObject.GetComponent<Renderer>().material.color=new Color(0,1,0,0.5f);
+
         }
     }
-
-    void OnCollisionExit(Collision collision) 
+    private void OnTriggerExit(Collider other) 
     {
-        if(collision.gameObject.tag == "Player")
+        if(other.gameObject.tag=="Player")
         {
-            Renderer renderer = collision.gameObject.GetComponent<Renderer>();
-            Color color=renderer.material.color;
-            color.a=1.0f;
-            renderer.material.color=color;
+            other.gameObject.GetComponent<Renderer>().material.color=new Color(1,0,0,0.5f);
         }
         
     }
