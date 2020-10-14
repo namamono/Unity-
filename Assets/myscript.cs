@@ -6,24 +6,30 @@ using UnityEngine.Rendering;
 
 public class myscript : MonoBehaviour
 {
-
+    GameObject[] cubes = new GameObject[4];
+    GameObject[] gos = new GameObject[4];
     // Start is called before the first frame update
     void Start()
     {
-        GameObject cube = GameObject.Find("Cube");
-        cube.GetComponent<Renderer>().material.color=new Color (1f,0,0,0.5f);
+        for(int i = 0; i<4 ; i++)
+        {
+            cubes[i]=GameObject.Find("Cube"+i);
+            gos[i]=GameObject.Find("GameObject"+i);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        GameObject cube= GameObject.Find("Cube");
-        Rigidbody rigidbody = GetComponent<Rigidbody>();
-        try
+        Rigidbody rigidbody=GetComponent<Rigidbody>();
+        foreach(GameObject obj in cubes)
         {
-            cube.transform.Rotate(0.1f,-0.1f,-0.1f);
+            obj.transform.Rotate(new Vector3(0.1f,0.1f,0.1f));
         }
-        catch(System.NullReferenceException e){}
+        Vector3 v = transform.position;
+        v.y +=2;
+        v.z -=7;
+        Camera.main.transform.position=v;
         
         if(Input.GetKey(KeyCode.LeftArrow))
         {
@@ -45,19 +51,20 @@ public class myscript : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other) 
     {
-        if(other.gameObject.tag=="Player")
+        if(other.gameObject.name.StartsWith("Cube"))
         {
-            other.gameObject.GetComponent<Renderer>().material.color=new Color(0,1,0,0.5f);
+            for(int i=0; i<4;i++)
+            {
+                if(cubes[i]==other.gameObject)
+                {
+                    ParticleSystem ps = gos[i].GetComponent<ParticleSystem>();
+                    ps.Play();
+                    cubes[i].SetActive(false);
+                }
+            }
 
         }
     }
-    private void OnTriggerExit(Collider other) 
-    {
-        if(other.gameObject.tag=="Player")
-        {
-            other.gameObject.GetComponent<Renderer>().material.color=new Color(1,0,0,0.5f);
-        }
-        
-    }
+
     
 }
