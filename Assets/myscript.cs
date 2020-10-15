@@ -65,6 +65,15 @@ public class myscript : MonoBehaviour
 
         }
     }
+    private void OnTriggerExit(Collider other) 
+    {
+        if(other.name=="Cylinder")
+        {
+            Behaviour b = (Behaviour)other.gameObject.GetComponent("Halo");
+            b.enabled=true;
+        }
+        
+    }
 
     
 }
