@@ -63,7 +63,7 @@ public class myscript : MonoBehaviour
 
     void AddForceALL()
     {
-        GameObject[] objs = GameObject.FindGameObjectsWithTag("Spere");
+        GameObject[] objs = GameObject.FindGameObjectsWithTag("sphere");
         foreach(GameObject obj in objs)
         {
             Vector3 dir = transform.position - obj.transform.position;
